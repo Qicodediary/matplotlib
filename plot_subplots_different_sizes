@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib
 import matplotlib.gridspec as gridspec
+import numpy as np
 
 #plot a figure
 fig = plt.figure(figsize=[12,21],constrained_layout=True) #set a figure size and make the subplots' size available to change 
