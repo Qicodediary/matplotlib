@@ -1,1 +1,0 @@
-masked_array = np.ma.array (s, mask=np.isnan(s)) #mask nan values as the land

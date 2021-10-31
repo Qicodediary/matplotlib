@@ -1,0 +1,5 @@
+import numpy as np
+
+masked_array = np.ma.array (s, mask=np.isnan(s)) #mask nan values 
+cmap_current = matplotlib.cm.coolwarm #select a colormap that you want 
+cmap_current.set_bad('grey',1.) #make mask (nan) color as grey
