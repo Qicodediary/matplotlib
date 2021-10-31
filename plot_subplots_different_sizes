@@ -1,0 +1,46 @@
+#plot a figure
+fig = plt.figure(figsize=[12,21],constrained_layout=True) #set a figure size and make the subplots' size available to change 
+widths = [4, 4, 4] %set width and heigh ratio
+heights = [1, 6, 1, 6, 1, 6]
+spec5 = fig.add_gridspec(ncols=3, nrows=6, width_ratios=widths,
+                          height_ratios=heights, wspace=0.01) # set the numbers of coloums and rows; here I want to plot 18 subplots.
+#I would like to plot ssh as small plots above each row of temperature and make them share the same x-axis(longitude). 
+for examples:
+#--ssh--ssh--ssh---
+#--temp--temp--temp--
+#--ssh--ssh--ssh---
+#--temp--temp--temp--
+#--ssh--ssh--ssh---
+#--temp--temp--temp--
+
+# Next I just showed the first ssh and temp 
+#to finish 18 subplots just need to change the number of the columns and rows. BTW: the index stars from 0
+#------------------------------------------------------------------------------------
+#--ssh--
+ax = fig.add_subplot(spec5[0, 0])#[col index=0 row index=0]
+ax.set_title('(1)',fontweight ="bold")#set title of two plots
+ax.axis([-76.45,-75.65, 0.09, 0.15])  #set x axis limits
+ax.set_yticks([0.09,0.11,0.13,0.15])  # set y ticks
+ax.set_yticklabels([r'0.09',r'0.11', r'0.13',r'0.15']) # set y tick labels
+ax.plot(np.squeeze(lon[ilon_1]),ssh[ilon_1,ilat_1])#plot ssh
+ax.set_ylabel('SSH (m)', labelpad=5) #set y label 
+ax.xaxis.set_visible(False)   # hide the x axis 
+#--temp--
+ax = fig.add_subplot(spec5[1, 0]) #[col index=1 row index=0]
+levels=np.arange(-50, 50, 1)
+s=(np.squeeze(sst[ilon_1,ilat_1,0:120]));
+masked_array = np.ma.array (s.transpose(1,0), mask=np.isnan(s.transpose(1,0))) #mask nan values as the land
+cmap_current = matplotlib.cm.coolwarm #set colormap
+cmap_current.set_bad('grey',1.)
+c = ax.imshow(masked_array,origin='upper',cmap=cmap_current, aspect='auto',extent=[-76.45,-75.65,600,0],vmin=4, vmax=10) # plot the temperature vertical section
+ax.set_xticks([-76.45,-76.25,-76.05,-75.85,-75.65])
+ax.set_xticklabels([r'76.45$^\degree$W',r'76.25$^\degree$W', r'76.05$^\degree$W',r'75.85$^\degree$W',r'75.65$^\degree$W'])
+CS=ax.contour(masked_array, levels=np.arange(-50, 50, 1), colors='black', alpha=1,origin='upper', extent=[-76.45,-75.65,600,0]) # plot the contours
+#cbar.set_label('cm/s', rotation = 0, labelpad = -0.1, y 
+ax.clabel(CS, levels[1::2],  # label every secondlevels level 
+           inline=1,
+           fmt='%1.1f',
+           fontsize=14) # label several contours
+ax.set_ylabel('Depth (m)', labelpad=5) #set y label
+ax.set_xlabel('Longitude') #set x label
+
