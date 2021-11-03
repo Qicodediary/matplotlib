@@ -1,0 +1,20 @@
+#plot a table with 9 rows and 5 columns
+
+fig= plt.figure(figsize=[7,3]) 
+ax_current = plt.subplot(1, 1, 1)
+
+column_labels=["Transect","Mean (Sv)","Max-Min (Sv)","Max Month","Min Month"]#set column labels
+df=pd.DataFrame(data,columns=column_labels)
+ax_current.axis('tight')
+ax_current.axis('off')
+
+ax_current.table(cellText=df.values,rowLoc='center',cellLoc='center',cellColours=[["skyblue","white","white","white","white"]]* 9,
+        colLabels=df.columns, 
+        #rowLabels=["Transect (1)","Transect (2)","Transect (3)","Transect (4)","Transect (5)","Transect (6)","Transect (7)","Transect (8)","Transect (9)"],
+        #rowColours =["skyblue"] * 9,  
+        colColours =["skyblue"] * 5,
+        loc="best")
+
+fig.tight_layout()
+plt.show()
+
